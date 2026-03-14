@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Nephele</title>
+<meta name="description" content="Get in touch with Nephele about ship-integrated marine cloud brightening.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .contact-page {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+  }
+
+  .contact-page .section-title {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-page p {
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .contact-email {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    margin-bottom: 3rem;
+  }
+
+  .contact-email a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-email a:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="/" class="nav-wordmark">Nephele</a>
+  <ul class="nav-links">
+    <li><a href="/#approach">Approach</a></li>
+    <li><a href="/whitepaper">Whitepaper</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- CONTACT -->
+<section class="contact-page">
+  <div class="section-label">Contact</div>
+  <h1 class="section-title">Let's talk.</h1>
+  <p>Whether you're a shipowner, regulator, researcher, or investor — we'd like to hear from you.</p>
+  <div class="contact-email">
+    <a href="mailto:info@nephele.earth">info@nephele.earth</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="/#approach">Approach</a>
+    <a href="/whitepaper">Whitepaper</a>
+    <a href="/contact">Contact</a>
+  </div>
+  <p>&copy; 2026 Nephele. All rights reserved. &nbsp;·&nbsp; nephele.earth</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+</script>
+
+</body>
+</html>
