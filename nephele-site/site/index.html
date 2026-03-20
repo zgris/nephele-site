@@ -3,273 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nephele — Ship-Integrated Marine Cloud Brightening</title>
-<meta name="description" content="Restoring lost cloud-albedo cooling via salt aerosol from existing ship infrastructure. Simple hardware. Measured results. Immediate reversibility.">
+<title>Nephele — Ship Track Restoration</title>
+<meta name="description" content="Restoring lost cloud-albedo cooling via sea salt aerosol delivered through ship exhaust plumes. Pre-activated droplets. Measured results. Immediate reversibility.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
 <style>
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 8rem 2rem 6rem;
-    position: relative;
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-deep: #0a0e14;
+    --bg-surface: #0f1419;
+    --text-primary: #e8eaed;
+    --text-secondary: #8b9bb4;
+    --text-muted: #5a6a82;
+    --accent: #6fa3c7;
+    --accent-dim: #3d6a8a;
+    --border: rgba(107, 140, 175, 0.12);
+    --border-hover: rgba(107, 140, 175, 0.25);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
   }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg-deep); color: var(--text-primary); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: var(--accent-dim); color: var(--text-primary); }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(60, 100, 140, 0.08) 0%, transparent 100%),
-      radial-gradient(ellipse 60% 40% at 30% 60%, rgba(40, 80, 120, 0.04) 0%, transparent 100%);
-    pointer-events: none;
-  }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 14, 20, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); transition: padding 0.4s ease; }
+  nav.scrolled { padding: 1rem 3rem; }
+  .nav-wordmark { font-family: var(--serif); font-size: 1.4rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.82rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--text-primary); }
 
-  .hero-logo {
-    width: 140px;
-    height: 140px;
-    margin-bottom: 3rem;
-    opacity: 0;
-    animation: fadeUp 1.2s ease 0.2s forwards;
-    filter: invert(1) brightness(0.9);
-  }
+  .btn { display: inline-block; padding: 0.85rem 2.2rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.35s ease; cursor: pointer; }
+  .btn-primary { background: var(--accent-dim); color: var(--text-primary); border: 1px solid var(--accent-dim); }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg-deep); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-hover); }
+  .btn-ghost:hover { color: var(--text-primary); border-color: var(--text-secondary); }
 
-  .hero-tagline {
-    font-family: var(--serif);
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    font-weight: 300;
-    line-height: 1.2;
-    max-width: 800px;
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeUp 1.2s ease 0.5s forwards;
-    color: var(--text-primary);
-  }
+  section { padding: 7rem 2rem; max-width: 1000px; margin: 0 auto; }
+  .section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+  .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300; line-height: 1.25; margin-bottom: 2rem; color: var(--text-primary); }
+  .section-body { color: var(--text-secondary); font-size: 1.02rem; max-width: 680px; }
+  .section-body p + p { margin-top: 1.5rem; }
+  .divider { max-width: 1000px; margin: 0 auto; height: 1px; background: var(--border); }
 
-  .hero-sub {
-    font-size: 1.05rem;
-    color: var(--text-secondary);
-    max-width: 620px;
-    line-height: 1.8;
-    margin-bottom: 1.8rem;
-    opacity: 0;
-    animation: fadeUp 1.2s ease 0.8s forwards;
-  }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 8rem 2rem 6rem; position: relative; }
+  .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(60, 100, 140, 0.08) 0%, transparent 100%), radial-gradient(ellipse 60% 40% at 30% 60%, rgba(40, 80, 120, 0.04) 0%, transparent 100%); pointer-events: none; }
 
-  .hero-solution {
-    font-family: var(--serif);
-    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
-    font-weight: 400;
-    color: var(--text-primary);
-    max-width: 620px;
-    line-height: 1.5;
-    margin-bottom: 3.5rem;
-    opacity: 0;
-    animation: fadeUp 1.2s ease 1s forwards;
-  }
+  .hero-tagline { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 300; line-height: 1.2; max-width: 800px; margin-bottom: 2rem; opacity: 0; animation: fadeUp 1.2s ease 0.5s forwards; color: var(--text-primary); }
+  .hero-sub { font-size: 1.05rem; color: var(--text-secondary); max-width: 620px; line-height: 1.8; margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 1.2s ease 0.8s forwards; }
+  .hero-solution { font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.5rem); font-weight: 400; color: var(--text-primary); max-width: 620px; line-height: 1.5; margin-bottom: 3.5rem; opacity: 0; animation: fadeUp 1.2s ease 1s forwards; }
+  .hero-cta-group { display: flex; gap: 1.5rem; opacity: 0; animation: fadeUp 1.2s ease 1.2s forwards; }
+  .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); opacity: 0; animation: fadeIn 1s ease 2.2s forwards; }
+  .hero-scroll span { display: block; width: 1px; height: 40px; background: linear-gradient(to bottom, var(--text-muted), transparent); margin: 0 auto; animation: scrollPulse 2.5s ease infinite; }
 
-  .hero-cta-group {
-    display: flex;
-    gap: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 1.2s ease 1.2s forwards;
-  }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    animation: fadeIn 1s ease 2.2s forwards;
-  }
-
-  .hero-scroll span {
-    display: block;
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--text-muted), transparent);
-    margin: 0 auto;
-    animation: scrollPulse 2.5s ease infinite;
-  }
-
-  /* ── HOW IT WORKS ── */
-  .steps {
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .step {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 2rem;
-    padding: 2.5rem 0;
-    border-bottom: 1px solid var(--border);
-    align-items: start;
-  }
-
+  .steps { margin-top: 3rem; display: flex; flex-direction: column; }
+  .step { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
   .step:first-child { border-top: 1px solid var(--border); }
+  .step-num { font-family: var(--serif); font-size: 2.4rem; font-weight: 300; color: var(--text-muted); line-height: 1; padding-top: 0.15rem; }
+  .step h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--text-primary); margin-bottom: 0.6rem; }
+  .step p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; max-width: 560px; }
 
-  .step-num {
-    font-family: var(--serif);
-    font-size: 2.4rem;
-    font-weight: 300;
-    color: var(--text-muted);
-    line-height: 1;
-    padding-top: 0.15rem;
-  }
+  .qualities { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-top: 3rem; }
+  .quality { padding: 2rem 0; }
+  .quality h3 { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--text-primary); margin-bottom: 0.75rem; }
+  .quality p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75; }
 
-  .step h3 {
-    font-family: var(--serif);
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: var(--text-primary);
-    margin-bottom: 0.6rem;
-  }
+  .insight-block { margin-top: 3rem; padding: 2.5rem; border: 1px solid var(--border); border-radius: 3px; background: rgba(15, 20, 25, 0.6); }
+  .insight-block h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--text-primary); margin-bottom: 1rem; }
+  .insight-block p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8; }
+  .insight-block p + p { margin-top: 1.2rem; }
 
-  .step p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.75;
-    max-width: 560px;
-  }
-
-  /* ── QUALITIES ── */
-  .qualities {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    margin-top: 3rem;
-  }
-
-  .quality {
-    padding: 2rem 0;
-  }
-
-  .quality h3 {
-    font-family: var(--serif);
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-  }
-
-  .quality p {
-    color: var(--text-secondary);
-    font-size: 0.92rem;
-    line-height: 1.75;
-  }
-
-  /* ── CTA BAND ── */
-  .cta-band {
-    padding: 6rem 2rem;
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
+  .cta-band { padding: 6rem 2rem; text-align: center; max-width: 700px; margin: 0 auto; }
   .cta-band .section-title { margin-bottom: 1.5rem; }
+  .cta-band p { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.02rem; }
 
-  .cta-band p {
-    color: var(--text-secondary);
-    margin-bottom: 2.5rem;
-    font-size: 1.02rem;
-  }
+  footer { padding: 3rem; text-align: center; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; letter-spacing: 0.03em; }
+  footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+  footer a:hover { color: var(--text-primary); }
+  .footer-links { margin-bottom: 1rem; display: flex; justify-content: center; gap: 2rem; }
 
-  .cta-band .btn { margin: 0 0.5rem; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.5; } }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; transform: scaleY(1); } 50% { opacity: 0.7; transform: scaleY(1.2); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .nav-links a { font-size: 0.75rem; }
     .hero { padding: 7rem 1.5rem 5rem; }
-    .hero-logo { width: 100px; height: 100px; margin-bottom: 2rem; }
     .hero-cta-group { flex-direction: column; align-items: center; }
+    section { padding: 4rem 1.5rem; }
     .step { grid-template-columns: 50px 1fr; gap: 1rem; }
     .qualities { grid-template-columns: 1fr; gap: 1rem; }
   }
+  @media (max-width: 480px) { .nav-links { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav id="nav">
   <a href="/" class="nav-wordmark">Nephele</a>
   <ul class="nav-links">
     <li><a href="#approach">Approach</a></li>
-    <li><a href="/whitepaper">Whitepaper</a></li>
-    <li><a href="/contact">Contact</a></li>
+    <li><a href="#insight">The Insight</a></li>
+    <li><a href="/whitepaper/">Whitepaper</a></li>
+    <li><a href="/contact/">Contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <img src="nephele-logo.png" alt="Nephele" class="hero-logo">
-  <h1 class="hero-tagline">Dirty ship emissions have brightened clouds for over a century.</h1>
-  <p class="hero-sub">Sulfur aerosol in ship exhaust seeded brighter marine clouds, reflecting heat. In 2020, clean-air regulations removed that aerosol — inadvertently resulting in a measurable increase in the rate of global ocean warming. The clouds dimmed. The planet got warmer.</p>
-  <p class="hero-solution">Nephele puts the reflectivity back in ship emissions — deliberately, cleanly, with sea salt.</p>
+  <h1 class="hero-tagline">Ship emissions brightened clouds for a century. In 2020, we turned them off.</h1>
+  <p class="hero-sub">Sulfur aerosol in ship exhaust seeded brighter marine clouds, reflecting sunlight. Clean-air regulations in 2020 removed that aerosol, producing a measurable increase in global ocean warming equivalent to two to three years of greenhouse emissions arriving all at once.</p>
+  <p class="hero-solution">Nephele restores ship tracks with clean sea salt, delivered through the ship's own exhaust plume.</p>
   <div class="hero-cta-group">
-    <a href="/whitepaper" class="btn btn-primary">Read the Whitepaper</a>
-    <a href="/contact" class="btn btn-ghost">Get in Touch</a>
+    <a href="/whitepaper/" class="btn btn-primary">Read the Whitepaper</a>
+    <a href="mailto:info@nephele.earth" class="btn btn-ghost">Get in Touch</a>
   </div>
   <div class="hero-scroll"><span></span></div>
 </section>
 
 <div class="divider"></div>
 
-<!-- APPROACH -->
+<section id="insight" class="reveal">
+  <div class="section-label">The Core Insight</div>
+  <h2 class="section-title">Every other approach dries the droplets. We don't.</h2>
+  <div class="section-body">
+    <p>Every marine cloud brightening proposal to date follows the same chain: spray seawater, evaporate the droplets to dry salt crystals, and wait for boundary layer turbulence to loft them to cloud base over 30 to 60 minutes. Each step loses particles. Evaporative cooling at the source actually fights vertical transport.</p>
+    <p>Nephele injects seawater spray into the warm, saturated post-scrubber exhaust plume. The droplets never dry. The marine boundary layer stays above the NaCl deliquescence point at all altitudes up to cloud base. The droplets ride the buoyant plume upward as concentrated salt solution, arriving at cloud base as effectively pre-activated condensation nuclei. No drying. No deliquescence barrier. No activation delay.</p>
+    <p>The plume does the hard work for free.</p>
+  </div>
+  <div class="insight-block">
+    <h3>The V-shaped transit</h3>
+    <p>At the stack, injected droplets enter warm saturated air. They cannot evaporate. As the plume rises and entrains ambient air, the droplets concentrate somewhat but never crystallize, because open-ocean humidity in stratocumulus regions stays above 75%. As they approach cloud base, ambient humidity climbs back toward saturation and the droplets re-absorb water, arriving nearly at their original size.</p>
+    <p>The mid-transit concentration is actually beneficial: smaller droplets settle more slowly and coagulate less, making them easier to transport. And because they remain as solution throughout, every droplet that reaches cloud base is ready to participate in cloud physics immediately.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <section id="approach" class="reveal">
   <div class="section-label">The Approach</div>
-  <h2 class="section-title">The "dumb" solution — because it can be deployed now, with existing technology.</h2>
+  <h2 class="section-title">Off-the-shelf hardware. Existing ships. The plume is the delivery system.</h2>
   <div class="section-body">
-    <p>Every marine cloud brightening proposal has struggled with spiraling complexity. We're proposing the brute-force method: simply inject seawater spray into cargo ship exhaust, hijacking existing emissions scrubber architecture. The ship's exhaust plume does all the hard work — turbulent mixing, droplet evaporation, and a free ride to the cloud base.</p>
-    <p>No new science. No purpose-built fleet. No precision nanoparticle engineering. Just off-the-shelf hardware piggybacking on scrubber hardware that already exists on over 4,000 industrial vessels already at sea.</p>
+    <p>A bolt-on module mounts above the scrubber exhaust stack. Air-assist nozzles spray seawater onto splash impaction plates, shattering droplets into the sub-micron range. A mist eliminator above passes only CCN-active particles into the plume. The scrubber's own seawater supply feeds the system. No new fleet. No precision nanoparticle engineering.</p>
   </div>
-
   <div class="steps">
     <div class="step">
       <div class="step-num">01</div>
       <div>
-        <h3>Inject brine at the stack exit</h3>
-        <p>Simple pressure-atomizing nozzles spray filtered seawater into the cleaned exhaust, downstream of the scrubber. Tap into existing scrubber seawater plumbing, using less than 1% of its water throughput.</p>
+        <h3>Spray and shatter</h3>
+        <p>Air-assist nozzles atomize filtered seawater onto splash impaction plates. The impact fragments parent droplets into daughters in the 0.3 to 3 micron range. Splash plate atomization is a proven industrial technology used continuously in kraft recovery boilers for decades.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div>
-        <h3>The plume does the hard work</h3>
-        <p>Turbulent mixing disperses the sea salt spray. Evaporation produces salt crystals. Thermal buoyancy preferentially lofts the smallest, most effective cloud condensation nuclei naturally, while larger salt crystals fall out of suspension and back into the sea.</p>
+        <h3>Mist eliminator selects by physics</h3>
+        <p>A standard off-the-shelf mist eliminator, the same type already in every marine scrubber, passes only sub-micron to few-micron droplets. Everything larger is caught and drains back through the scrubber. No precision filtration. No clogging. 97 to 99% open space, negligible pressure drop.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <div>
-        <h3>Clouds brighten</h3>
-        <p>Salt crystals activate as cloud condensation nuclei, increasing droplet number and reflectivity via the Twomey effect. Onboard monitoring and satellite verification attributes reflected heat to individual vessels.</p>
+        <h3>The plume delivers</h3>
+        <p>Warm, saturated post-scrubber exhaust carries the solution droplets upward. They stay liquid throughout transit. The buoyant plume reaches cloud base altitude in minutes, not the hour required by passive lofting. Delivery efficiency is estimated at 10 to 100 times higher than ambient sea-level spraying.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">04</div>
       <div>
-        <h3>Measured, paid cooling</h3>
-        <p>CERES/MODIS radiative forcing data verifies the cooling. We compensate participating vessels.</p>
+        <h3>Clouds brighten</h3>
+        <p>Solution droplets activate as cloud condensation nuclei at very low supersaturations, with no deliquescence barrier to overcome. Cloud droplet number increases. Reflectivity increases. Ship tracks form.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">05</div>
       <div>
-        <h3>Immediate, total reversibility</h3>
-        <p>Stop injection, and the effect ceases within hours. No persistent atmospheric modification, no long-term commitment. We are seeking to operate under full IMO MEPC oversight — cloud brightening should be tightly regulated, transparently verified, and institutionally governed.</p>
+        <h3>Measured, verified, reversible</h3>
+        <p>CERES/MODIS satellite data verifies radiative forcing. Replaceable mist eliminator cassettes provide a physical audit trail and independent scrubber compliance verification. Stop injection and the effect ceases within 48 hours. We seek to operate under full IMO MEPC oversight.</p>
       </div>
     </div>
   </div>
@@ -277,83 +191,87 @@
 
 <div class="divider"></div>
 
-<!-- WHY THIS WORKS -->
 <section class="reveal">
   <div class="section-label">Why This Works</div>
-  <h2 class="section-title">Not geoengineering new clouds. Replacing lost ship tracks from IMO 2020.</h2>
+  <h2 class="section-title">Not making new clouds. Restoring lost ship tracks.</h2>
   <div class="qualities">
     <div class="quality">
       <h3>Not new</h3>
-      <p>We are restoring an effect that shipping itself produced for over a century, backed by research that has been well-understood for decades.</p>
+      <p>We are restoring an effect that shipping itself produced for over a century. The physics has been understood for decades. The 2020 sulfur cap is a natural A/B test proving it works.</p>
     </div>
     <div class="quality">
       <h3>Not permanent</h3>
-      <p>Salt aerosol atmospheric lifetime is hours to days. Cessation of injection immediately halts the effect. The strongest possible off switch.</p>
+      <p>Salt aerosol atmospheric lifetime is hours to days. Stop injecting and cloud brightening halts within 48 hours. The fastest off switch in climate intervention.</p>
     </div>
     <div class="quality">
       <h3>Not sulfur</h3>
-      <p>NaCl replaces SO₂ — we use a substance that belongs in the ocean with twice the hygroscopicity. The clean air benefits of IMO 2020 are fully preserved.</p>
+      <p>NaCl replaces SO&#x2082; with twice the hygroscopicity. Inert in the atmosphere, naturally present in the ocean. The clean air benefits of IMO 2020 are fully preserved.</p>
     </div>
     <div class="quality">
-      <h3>~$250K per vessel</h3>
-      <p>Simple hardware, proven materials, installed during a routine port call.</p>
+      <h3>Controllable</h3>
+      <p>Unlike SO&#x2082;, which reacted unpredictably in the atmosphere, NaCl is chemically inert. What we inject is what arrives at cloud base. Predictable, tunable, verifiable.</p>
     </div>
     <div class="quality">
-      <h3>4,000+ ships ready to deploy</h3>
-      <p>Scrubber-equipped industrial vessels already have the plumbing and exhaust infrastructure to make this work.</p>
+      <h3>4,000+ ships ready</h3>
+      <p>Scrubber-equipped vessels already have the seawater plumbing, exhaust infrastructure, and maintenance access. Installation during a routine port call. ~$250K per vessel.</p>
     </div>
     <div class="quality">
       <h3>Satellite-verified</h3>
-      <p>NASA's CERES instruments provide independent, auditable radiative forcing measurement. Every watt is accounted for.</p>
+      <p>NASA's CERES instruments provide independent, auditable radiative forcing measurement. Every watt is accounted for. Mist eliminator cassettes add a physical audit trail.</p>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- WHITEPAPER CTA -->
+<section class="reveal">
+  <div class="section-label">The Honest Picture</div>
+  <h2 class="section-title">Current hardware reaches ~30% of pre-2020 levels. That's the starting point, not the ceiling.</h2>
+  <div class="section-body">
+    <p>Off-the-shelf air-assist nozzles with splash atomization deliver approximately 30% of a pre-2020 ship's effective cloud condensation nuclei at cloud base. Combined with the ship's own residual post-2020 aerosol, a Nephele-equipped vessel restores roughly half of the pre-2020 cloud perturbation. That is enough to demonstrate the concept, validate the verification methodology, and build the regulatory track record.</p>
+    <p>Reaching full parity requires nozzle technology optimized for CCN production in marine environments. That hardware does not yet exist as a commercial product, because the market for it does not yet exist.</p>
+    <p>IMO recognition of ship track restoration as an eligible activity under the Net-Zero Framework creates that market. It provides the commercial incentive for the spray engineering sector to develop fleet-ready hardware. Nephele's platform is ready for those nozzles the moment they arrive. The regulatory framework that incentivizes ship track restoration will also fund the hardware development that perfects it.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <section class="reveal">
   <div class="section-label">Whitepaper</div>
   <h2 class="section-title">Read the full technical proposal</h2>
   <div class="section-body">
-    <p>Our whitepaper details the physics, engineering, verification methodology, regulatory pathway through the IMO Net-Zero Framework, and revenue model for ship-integrated marine cloud brightening.</p>
+    <p>Our whitepaper details the plume delivery physics, splash atomization engineering, per-ship CCN budget derivation, verification methodology, regulatory pathway through the IMO Net-Zero Framework, and revenue model for ship-integrated sea salt injection.</p>
     <p style="margin-top: 2rem;">
-      <a href="/whitepaper" class="btn btn-primary">Read the Whitepaper</a>
+      <a href="/whitepaper/" class="btn btn-primary">Read the Whitepaper</a>
     </p>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- CONTACT CTA -->
 <section class="cta-band reveal">
   <div class="section-label">Contact</div>
   <h2 class="section-title">Let's talk.</h2>
-  <p>Whether you're a shipowner, regulator, researcher, or investor — we'd like to hear from you.</p>
+  <p>Whether you're a shipowner, regulator, researcher, or investor.</p>
   <a href="mailto:info@nephele.earth" class="btn btn-primary">info@nephele.earth</a>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-links">
     <a href="#approach">Approach</a>
-    <a href="/whitepaper">Whitepaper</a>
-    <a href="/contact">Contact</a>
+    <a href="#insight">The Insight</a>
+    <a href="/whitepaper/">Whitepaper</a>
+    <a href="mailto:info@nephele.earth">Contact</a>
   </div>
-  <p>&copy; 2026 Nephele. All rights reserved. &nbsp;·&nbsp; nephele.earth</p>
+  <p>&copy; 2026 Nephele. All rights reserved. &nbsp;&middot;&nbsp; nephele.earth</p>
 </footer>
 
 <script>
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
   }, { threshold: 0.12 });
   reveals.forEach(el => observer.observe(el));
 </script>
