@@ -57,6 +57,12 @@
   .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); opacity: 0; animation: fadeIn 1s ease 2.2s forwards; }
   .hero-scroll span { display: block; width: 1px; height: 40px; background: linear-gradient(to bottom, var(--text-muted), transparent); margin: 0 auto; animation: scrollPulse 2.5s ease infinite; }
 
+  .hero-image-wrap { position: relative; width: 100%; max-width: 1200px; margin: 0 auto; }
+  .hero-image { display: block; width: 100%; height: auto; }
+  .hero-image-credit { position: absolute; bottom: 0; right: 0; padding: 0.5rem 0.9rem; background: rgba(10, 14, 20, 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); color: var(--text-primary); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.03em; text-decoration: none; transition: color 0.3s; }
+  .hero-image-credit:hover { color: var(--accent); }
+  .hero-image-caption { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 2rem; font-family: var(--serif); font-size: 1.15rem; font-weight: 300; color: var(--text-secondary); line-height: 1.6; }
+
   .steps { margin-top: 3rem; display: flex; flex-direction: column; }
   .step { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
   .step:first-child { border-top: 1px solid var(--border); }
@@ -120,6 +126,12 @@
   <div class="hero-scroll"><span></span></div>
 </section>
 
+<div class="hero-image-wrap reveal">
+  <img src="ShipTracks_NASA.jpg" alt="Satellite image of ship tracks — bright cloud trails formed by ship exhaust aerosol over the Pacific Ocean" class="hero-image" loading="eager">
+  <a href="https://svs.gsfc.nasa.gov/10839" target="_blank" rel="noopener" class="hero-image-credit">Image: NASA's Goddard Space Flight Center</a>
+</div>
+<p class="hero-image-caption reveal">Pre-2020 ship tracks over the Pacific. White trails of clouds reflected solar radiation, unintentionally cooling the planet and staving off global warming. This is what we've lost.</p>
+
 <div class="divider"></div>
 
 <section id="approach" class="reveal">
@@ -134,7 +146,7 @@
       <div class="step-num">01</div>
       <div>
         <h3>Inject brine at the stack exit</h3>
-        <p>Nozzles spray filtered seawater onto rotating splash impaction plates below a mist eliminator, downstream of the scrubber. The mist eliminator passes only sub-micron droplets into the plume. Tap into existing scrubber seawater plumbing, using less than 1% of its water throughput.</p>
+        <p>Nozzles spray filtered seawater onto a rotating splash atomizer below a mist eliminator, downstream of the scrubber. The mist eliminator passes only sub-micron droplets into the plume. Tap into existing scrubber seawater plumbing, using less than 1% of its water throughput.</p>
       </div>
     </div>
     <div class="step">
@@ -187,7 +199,7 @@
       <p>NaCl replaces SO₂. Chemically inert in the atmosphere, naturally present in the ocean, and far more controllable. Unlike sulfur, what we inject is exactly what arrives at cloud base. No uncontrolled side reactions.</p>
     </div>
     <div class="quality">
-      <h3>~Economical</h3>
+      <h3>Economical</h3>
       <p>Simple hardware, proven materials, installed during a routine port call.</p>
     </div>
     <div class="quality">
